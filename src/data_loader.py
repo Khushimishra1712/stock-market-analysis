@@ -5,8 +5,6 @@ Handles downloading and loading stock data from Yahoo Finance
 
 import yfinance as yf
 import pandas as pd
-import sys
-sys.path.append('.')
 from config.config import START_DATE, END_DATE, PRIMARY_STOCK, ALL_STOCKS, RAW_DATA_PATH
 
 def download_stock_data(ticker, start_date=START_DATE, end_date=END_DATE):

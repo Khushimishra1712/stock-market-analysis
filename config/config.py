@@ -5,13 +5,12 @@ Modify these settings to customize the analysis
 
 import pandas as pd
 from datetime import datetime, timedelta
+import os
 
 # ==================== DATE CONFIGURATION ====================
 # Set the analysis period (1 year back from today)
 END_DATE = datetime.now()
 START_DATE = END_DATE - timedelta(days=365)
-
-print(f"Analysis Period: {START_DATE.date()} to {END_DATE.date()}")
 
 # ==================== STOCK SYMBOLS ====================
 # Primary stock to analyze
@@ -71,7 +70,23 @@ REPORT_PATH = 'reports/'
 # For reproducibility
 RANDOM_STATE = 42
 
-print("\n✅ Configuration loaded successfully!")
-print(f"Primary Stock: {PRIMARY_STOCK}")
-print(f"Comparison Stocks: {COMPARISON_STOCKS}")
-print(f"Analysis Period: {TRAIN_TEST_SPLIT*100:.0f}% train, {(1-TRAIN_TEST_SPLIT)*100:.0f}% test")
+
+def ensure_output_dirs():
+	"""Create output directories defined in this config if they don't exist."""
+	for p in (RAW_DATA_PATH, PROCESSED_DATA_PATH, VISUALIZATION_PATH, REPORT_PATH):
+		try:
+			os.makedirs(p, exist_ok=True)
+		except Exception:
+			pass
+
+
+def _print_summary():
+	print("\n✅ Configuration loaded successfully!")
+	print(f"Primary Stock: {PRIMARY_STOCK}")
+	print(f"Comparison Stocks: {COMPARISON_STOCKS}")
+	print(f"Analysis Period: {TRAIN_TEST_SPLIT*100:.0f}% train, {(1-TRAIN_TEST_SPLIT)*100:.0f}% test")
+
+
+if __name__ == "__main__":
+	_print_summary()
+	ensure_output_dirs()

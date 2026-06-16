@@ -5,8 +5,6 @@ Handles statistical analysis and correlation analysis
 
 import pandas as pd
 import numpy as np
-import sys
-sys.path.append('.')
 from config.config import PRIMARY_STOCK
 
 def calculate_correlation_matrix(stocks_data):

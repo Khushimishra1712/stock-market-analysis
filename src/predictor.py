@@ -14,8 +14,6 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 import warnings
 warnings.filterwarnings('ignore')
 
-import sys
-sys.path.append('.')
 from config.config import RANDOM_STATE
 
 class StockPredictor:
@@ -101,10 +99,21 @@ class StockPredictor:
         """
         Calculate evaluation metrics
         """
-        mae = mean_absolute_error(y_true, y_pred)
-        rmse = np.sqrt(mean_squared_error(y_true, y_pred))
-        r2 = r2_score(y_true, y_pred)
-        mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+        # Ensure inputs are 1-D numpy arrays
+        y_true_arr = np.ravel(np.array(y_true))
+        y_pred_arr = np.ravel(np.array(y_pred))
+
+        mae = mean_absolute_error(y_true_arr, y_pred_arr)
+        rmse = np.sqrt(mean_squared_error(y_true_arr, y_pred_arr))
+        r2 = r2_score(y_true_arr, y_pred_arr)
+
+        # MAPE: avoid division by zero by masking zero true values
+        with np.errstate(divide='ignore', invalid='ignore'):
+            mask = y_true_arr != 0
+            if mask.any():
+                mape = np.mean(np.abs((y_true_arr[mask] - y_pred_arr[mask]) / y_true_arr[mask])) * 100
+            else:
+                mape = np.nan
         
         metrics = {
             'MAE': mae,

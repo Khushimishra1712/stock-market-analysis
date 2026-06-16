@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stock-market-analysis"
+version = "0.1.0"
+description = "Stock market analysis utilities"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []

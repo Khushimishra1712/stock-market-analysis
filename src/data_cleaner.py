@@ -6,8 +6,6 @@ Handles data preprocessing and cleaning
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-import sys
-sys.path.append('.')
 from config.config import PROCESSED_DATA_PATH
 
 def clean_data(data, ticker):
@@ -34,8 +32,8 @@ def clean_data(data, ticker):
     missing_before = df.isnull().sum().sum()
     print(f"Missing values before: {missing_before}")
     
-    # Fill missing values using forward fill then backward fill
-    df = df.fillna(method='ffill').fillna(method='bfill')
+    # Fill missing values using forward fill then backward fill (compatible with pandas 3.x)
+    df = df.ffill().bfill()
     
     missing_after = df.isnull().sum().sum()
     print(f"Missing values after: {missing_after}")

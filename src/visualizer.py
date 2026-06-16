@@ -7,12 +7,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import numpy as np
-import sys
-sys.path.append('.')
 from config.config import FIGURE_WIDTH, FIGURE_HEIGHT, VISUALIZATION_PATH
+import os
 
 sns.set_style("whitegrid")
 plt.rcParams['figure.figsize'] = (FIGURE_WIDTH, FIGURE_HEIGHT)
+
+# Ensure visualization directory exists
+try:
+    os.makedirs(VISUALIZATION_PATH, exist_ok=True)
+except Exception:
+    pass
 
 def plot_stock_price(data, ticker):
     """
